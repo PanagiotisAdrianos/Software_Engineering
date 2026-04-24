@@ -3,7 +3,7 @@ package com.specflow.services;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CRCCardService {
+public class CrcCardService {
 
     public void createCrcCard() {
         // TODO: Implement UC10 logic
