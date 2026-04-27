@@ -13,16 +13,19 @@
 
 ## 📚 Table of Contents
 
+- [📚 Table of Contents](#-table-of-contents)
 - [📌 Overview](#-overview)
 - [🧠 Key Features](#-key-features)
+  - [📂 Project Management](#-project-management)
+  - [📋 Use Case Management](#-use-case-management)
+  - [🧩 CRC Cards](#-crc-cards)
+  - [💬 Collaboration](#-collaboration)
+  - [📊 Diagram Generation](#-diagram-generation)
+  - [🔔 Notifications \& History](#-notifications--history)
 - [👥 User Roles](#-user-roles)
 - [🏗️ System Architecture](#️-system-architecture)
+  - [Core Entities:](#core-entities)
 - [🔄 Core Functionality](#-core-functionality)
-- [🖼️ Screenshots](#️-screenshots)
-- [🛠️ Technologies Used](#️-technologies-used)
-- [📈 Future Improvements](#-future-improvements)
-- [👨‍💻 Team](#-team)
-- [📄 License](#-license)
 
 ---
 
@@ -118,8 +121,3 @@ Main system operations include:
 - Add / Delete comments
 
 ---
-
-## 🖼️ Screenshots
-
-```markdown
-![Project Screenshot](images/project.png)
