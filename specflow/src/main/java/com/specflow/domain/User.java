@@ -37,7 +37,7 @@ public class User implements UserDetails {
     private Role role = Role.DEVELOPER;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ProjectMembership> projectMemberships = new ArrayList<>();
+    private List<Participant> participants = new ArrayList<>();
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();

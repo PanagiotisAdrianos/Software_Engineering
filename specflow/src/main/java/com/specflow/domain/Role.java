@@ -5,5 +5,6 @@ public enum Role {
     DEVELOPER,
     COLLABORATOR,
     REVIEWER,
-    ADMIN
+    ADMIN,
+    ORG_OWNER
 }

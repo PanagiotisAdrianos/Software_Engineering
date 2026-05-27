@@ -1,5 +1,6 @@
 package com.specflow.domain;
 
+import com.specflow.dto.ProjectDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -39,8 +40,14 @@ public class Project {
     private List<CrcCard> crcCards = new ArrayList<>();
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ProjectMembership> projectMemberships = new ArrayList<>();
+    private List<Participant> participants = new ArrayList<>();
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
+
+    public Project(ProjectDto dto, User owner) {
+        this.name = dto.getName();
+        this.description = dto.getDescription();
+        this.owner = owner;
+    }
 }

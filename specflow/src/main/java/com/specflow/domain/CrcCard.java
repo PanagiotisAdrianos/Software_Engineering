@@ -1,5 +1,6 @@
 package com.specflow.domain;
 
+import com.specflow.dto.CrcCardDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -42,4 +43,17 @@ public class CrcCard {
 
     @OneToMany(mappedBy = "crcCard", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
+
+    public CrcCard(CrcCardDto dto, Project project) {
+        this.className = dto.getClassName();
+        this.responsibilities = dto.getResponsibilities();
+        this.collaborations = dto.getCollaborations();
+        this.project = project;
+    }
+
+    public void update(CrcCardDto dto) {
+        this.className = dto.getClassName();
+        this.responsibilities = dto.getResponsibilities();
+        this.collaborations = dto.getCollaborations();
+    }
 }
