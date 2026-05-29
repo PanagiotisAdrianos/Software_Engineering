@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: layout(~{::section}, 'Σύνδεση')}">
+<body>
+<section th:fragment="content">
+    <div class="form-container">
+        <h1>Σύνδεση</h1>
+        <p class="form-subtitle">Καλωσήρθατε στο SpecFlow</p>
+
+        <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
+        <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+
+        <form th:action="@{/login}" method="post" th:object="${loginDto}">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" th:field="*{username}"
+                       class="form-control" placeholder="Εισάγετε username">
+                <span th:if="${#fields.hasErrors('username')}"
+                      th:errors="*{username}" class="field-error"></span>
+            </div>
+            <div class="form-group">
+                <label for="password">Κωδικός</label>
+                <input type="password" id="password" th:field="*{password}"
+                       class="form-control" placeholder="Εισάγετε κωδικό">
+                <span th:if="${#fields.hasErrors('password')}"
+                      th:errors="*{password}" class="field-error"></span>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Σύνδεση</button>
+            </div>
+        </form>
+        <p class="form-link">Δεν έχετε λογαριασμό; <a th:href="@{/register}">Εγγραφή</a></p>
+    </div>
+</section>
+</body>
+</html>
