@@ -1,0 +1,8 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<span th:fragment="fieldError(field)" class="field-error"
+      th:if="${#fields.hasErrors(field)}"
+      th:errors="${field}"></span>
+</body>
+</html>

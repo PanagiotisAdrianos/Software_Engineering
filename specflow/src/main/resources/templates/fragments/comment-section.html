@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="section(comments, targetType, targetId, projectId, currentUserId)"
+     class="detail-card" style="margin-top: 1.5rem;">
+    <h3>Comments</h3>
+
+    <div th:if="${#lists.isEmpty(comments)}" class="empty-state">
+        Δεν υπάρχουν σχόλια ακόμα.
+    </div>
+
+    <ul th:unless="${#lists.isEmpty(comments)}" class="item-list">
+        <li th:each="c : ${comments}" class="item-list-row" style="display:block;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <strong th:text="${c.author.username}">author</strong>
+                    <span class="page-subtitle" style="margin-left: 0.6rem;"
+                          th:text="${#dates.format(c.createdAt, 'yyyy-MM-dd HH:mm')}">timestamp</span>
+                </div>
+                <form th:if="${c.author.id == currentUserId}"
+                      th:action="@{/comments/{id}/delete-confirm(id=${c.id})}"
+                      method="get" style="display:inline;">
+                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                </form>
+            </div>
+            <p th:text="${c.body}" style="white-space: pre-wrap; margin-top: 0.4rem;"></p>
+        </li>
+    </ul>
+
+    <div th:replace="~{fragments/comment-form :: form(${targetType}, ${targetId}, ${projectId})}"></div>
+</div>
+</body>
+</html>

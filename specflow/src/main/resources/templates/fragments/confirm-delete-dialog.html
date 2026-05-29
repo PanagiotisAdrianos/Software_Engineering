@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="dialog(title, message, confirmUrl, cancelUrl)" class="confirm-dialog card">
+    <h2 th:text="${title}">Confirm</h2>
+    <p th:text="${message}">Are you sure?</p>
+    <div class="form-actions" style="margin-top: 1.2rem; display: flex; gap: 0.8rem;">
+        <form th:action="${confirmUrl}" method="post" style="display:inline;">
+            <button type="submit" class="btn btn-danger">Yes, Delete</button>
+        </form>
+        <a th:href="${cancelUrl}" class="btn btn-secondary">Cancel</a>
+    </div>
+</div>
+</body>
+</html>

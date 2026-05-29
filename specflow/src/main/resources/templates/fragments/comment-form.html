@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<form th:fragment="form(targetType, targetId, projectId)"
+      th:action="@{/comments}" method="post" style="margin-top: 1rem;">
+    <input type="hidden" name="targetType" th:value="${targetType}">
+    <input type="hidden" name="targetId" th:value="${targetId}">
+    <input type="hidden" name="projectId" th:value="${projectId}">
+
+    <div class="form-group">
+        <label for="comment-text">New Comment</label>
+        <textarea id="comment-text" name="text" class="form-control" rows="3"
+                  placeholder="Write your comment here..."></textarea>
+    </div>
+
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Submit Comment</button>
+    </div>
+</form>
+</body>
+</html>
