@@ -1,44 +1,153 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       th:replace="~{layout/base :: layout(~{::section}, 'Participants')}">
+
 <body>
+
 <section th:fragment="content">
+
     <div class="breadcrumb">
-        <a th:href="@{/projects}">Τα Projects μου</a> &rsaquo;
-        <a th:href="@{/projects/{id}(id=${project.id})}" th:text="${project.name}">Project</a> &rsaquo;
+
+        <a th:href="@{/projects}">
+            My Projects
+        </a>
+
+        &rsaquo;
+
+        <a th:href="@{/projects/{id}(id=${project.id})}"
+           th:text="${project.name}">
+            Project
+        </a>
+
+        &rsaquo;
+
         Participants
+
     </div>
 
     <div th:replace="~{fragments/flash-messages :: messages}"></div>
 
     <div class="page-header">
+
         <div>
-            <h1>Manage Participants</h1>
-            <p class="page-subtitle">Λίστα συμμετεχόντων του Project.</p>
+
+            <h1>
+                Manage Participants
+            </h1>
+
+            <p class="page-subtitle">
+                List of project participants.
+            </p>
+
         </div>
+
         <div class="page-actions">
+
             <a th:href="@{/projects/{id}/participants/new(id=${project.id})}"
-               class="btn btn-primary">+ Add New Participant</a>
+               class="btn btn-primary">
+
+                + Add New Participant
+
+            </a>
+
         </div>
+
     </div>
 
-    <div th:if="${#lists.isEmpty(participants)}" class="empty-state">
-        Δεν υπάρχουν συμμετέχοντες ακόμα.
-    </div>
-    <ul th:unless="${#lists.isEmpty(participants)}" class="item-list">
-        <li th:each="p : ${participants}" class="item-list-row">
-            <span class="item-name" th:text="${p.user.username}">username</span>
-            <span class="badge" th:text="${p.role}">ROLE</span>
-            <form th:action="@{/projects/{pid}/participants/{id}/delete-confirm(pid=${project.id}, id=${p.id})}"
-                  method="get" style="display:inline;">
-                <button type="submit" class="btn btn-danger btn-sm">Remove</button>
-            </form>
-        </li>
-    </ul>
+    <!-- EMPTY STATE -->
+    <div th:if="${#lists.isEmpty(participants)}"
+         class="empty-state">
 
+        No participants have been added yet.
+
+    </div>
+
+    <!-- TABLE VIEW -->
+    <div th:unless="${#lists.isEmpty(participants)}"
+         class="detail-card">
+
+        <table style="width:100%; border-collapse: collapse;">
+
+            <thead>
+
+                <tr style="text-align:left; border-bottom:1px solid #ddd;">
+
+                    <th style="padding:0.8rem;">
+                        Username
+                    </th>
+
+                    <th style="padding:0.8rem;">
+                        Role
+                    </th>
+
+                    <th style="padding:0.8rem;">
+                        Actions
+                    </th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <tr th:each="p : ${participants}"
+                    style="border-bottom:1px solid #f0f0f0;">
+
+                    <!-- USERNAME -->
+                    <td style="padding:0.8rem;"
+                        th:text="${p.user.username}">
+                        username
+                    </td>
+
+                    <!-- ROLE -->
+                    <td style="padding:0.8rem;">
+
+                        <span class="badge"
+                              th:text="${p.role}">
+                            ROLE
+                        </span>
+
+                    </td>
+
+                    <!-- ACTIONS -->
+                    <td style="padding:0.8rem;">
+
+                        <form th:action="@{/projects/{pid}/participants/{id}/delete-confirm(pid=${project.id}, id=${p.id})}"
+                              method="get"
+                              style="display:inline;">
+
+                            <button type="submit"
+                                    class="btn btn-danger btn-sm">
+
+                                Remove
+
+                            </button>
+
+                        </form>
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <!-- BACK BUTTON -->
     <div style="margin-top: 1.5rem;">
-        <a th:href="@{/projects/{id}(id=${project.id})}" class="btn btn-secondary">← Πίσω στο Project</a>
+
+        <a th:href="@{/projects/{id}(id=${project.id})}"
+           class="btn btn-secondary">
+
+            ← Back to Project
+
+        </a>
+
     </div>
+
 </section>
+
 </body>
 </html>

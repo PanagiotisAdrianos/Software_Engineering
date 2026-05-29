@@ -1,53 +1,147 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       th:replace="~{layout/base :: layout(~{::section}, 'User Management')}">
+
 <body>
+
 <section th:fragment="content">
+
     <div class="breadcrumb">
-        <a th:href="@{/}">Homepage</a> &rsaquo; User Management
+
+        <a th:href="@{/}">
+            Homepage
+        </a>
+
+        &rsaquo;
+
+        User Management
+
     </div>
 
     <div th:replace="~{fragments/flash-messages :: messages}"></div>
 
     <div class="page-header">
+
         <div>
-            <h1>User Management</h1>
-            <p class="page-subtitle">Πίνακας εγγεγραμμένων χρηστών.</p>
+
+            <h1>
+                User Management
+            </h1>
+
+            <p class="page-subtitle">
+                Registered users table.
+            </p>
+
         </div>
+
     </div>
 
+    <form th:action="@{/admin/users}" method="get" style="margin-bottom: 1.5rem; display: flex; gap: 0.5rem; max-width: 500px;">
+        <input type="text" 
+               name="keyword" 
+               th:value="${param.keyword}" 
+               placeholder="Search users by username or email..." 
+               style="flex: 1; padding: 0.5rem 0.75rem; border: 1px solid #ccc; border-radius: 4px; font-size: 0.9rem;" />
+        
+        <button type="submit" 
+                class="btn btn-primary"
+                style="padding: 0.5rem 1rem; border-radius: 4px; font-size: 0.9rem; font-weight: 500; cursor: pointer;">
+            Search
+        </button>
+      
+    </form>
+
     <div class="detail-card">
-        <table class="data-table" style="width:100%; border-collapse: collapse;">
+
+        <table class="data-table"
+               style="width:100%; border-collapse: collapse;">
+
             <thead>
+
                 <tr>
-                    <th style="text-align:left; padding: 0.6rem;">Username</th>
-                    <th style="text-align:left; padding: 0.6rem;">Email</th>
-                    <th style="text-align:left; padding: 0.6rem;">Role</th>
-                    <th style="text-align:left; padding: 0.6rem;">Actions</th>
+
+                    <th style="text-align:left; padding: 0.6rem;">
+                        Username
+                    </th>
+
+                    <th style="text-align:left; padding: 0.6rem;">
+                        Email
+                    </th>
+
+                    <th style="text-align:left; padding: 0.6rem;">
+                        Role
+                    </th>
+
+                    <th style="text-align:left; padding: 0.6rem;">
+                        Actions
+                    </th>
+
                 </tr>
+
             </thead>
+
             <tbody>
+
                 <tr th:each="u : ${users}">
-                    <td style="padding: 0.6rem;" th:text="${u.username}">user</td>
-                    <td style="padding: 0.6rem;" th:text="${u.email}">email</td>
-                    <td style="padding: 0.6rem;">
-                        <span class="badge" th:text="${u.role}">ROLE</span>
+
+                    <td style="padding: 0.6rem;"
+                        th:text="${u.username}">
+                        user
                     </td>
+
+                    <td style="padding: 0.6rem;"
+                        th:text="${u.email}">
+                        email
+                    </td>
+
                     <td style="padding: 0.6rem;">
+
+                        <span class="badge"
+                              th:text="${u.role}">
+                            ROLE
+                        </span>
+
+                    </td>
+
+                    <td style="padding: 0.6rem;">
+
                         <a th:if="${u.id != currentUser.id}"
                            th:href="@{/admin/users/{id}/role(id=${u.id})}"
-                           class="btn btn-primary btn-sm">Change Role</a>
+                           class="btn btn-primary btn-sm">
+
+                            Change Role
+
+                        </a>
+
                         <span th:if="${u.id == currentUser.id}"
-                              class="page-subtitle">(you)</span>
+                              class="page-subtitle">
+
+                            (you)
+
+                        </span>
+
                     </td>
+
                 </tr>
+
             </tbody>
+
         </table>
+
     </div>
 
     <div style="margin-top: 1.5rem;">
-        <a th:href="@{/}" class="btn btn-secondary">← Back</a>
+
+        <a th:href="@{/}"
+           class="btn btn-secondary">
+
+            ← Back
+
+        </a>
+
     </div>
+
 </section>
+
 </body>
 </html>

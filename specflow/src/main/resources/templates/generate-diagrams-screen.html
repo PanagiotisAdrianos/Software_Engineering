@@ -1,96 +1,245 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       th:replace="~{layout/base :: layout(~{::section}, 'Generate Diagrams')}">
+
 <body>
+
 <section th:fragment="content">
+
+    <!-- ================= BREADCRUMB ================= -->
     <div class="breadcrumb">
-        <a th:href="@{/projects}">Τα Projects μου</a> &rsaquo;
-        <a th:href="@{/projects/{id}(id=${project.id})}" th:text="${project.name}">Project</a> &rsaquo;
+
+        <a th:href="@{/projects}">
+            My Projects
+        </a>
+
+        &rsaquo;
+
+        <a th:href="@{/projects/{id}(id=${project.id})}"
+           th:text="${project.name}">
+            Project
+        </a>
+
+        &rsaquo;
+
         Diagrams
+
     </div>
 
+    <!-- ================= FLASH MESSAGES ================= -->
     <div th:replace="~{fragments/flash-messages :: messages}"></div>
 
+    <!-- ================= PAGE HEADER ================= -->
     <div class="page-header">
+
         <div>
-            <h1>Generate Diagrams</h1>
-            <p class="page-subtitle">Παράγετε script PlantUML ή Nomnoml για Use Case ή Class Diagram.</p>
+
+            <h1>
+                Generate Diagrams
+            </h1>
+
+            <p class="page-subtitle">
+                Generate PlantUML or Nomnoml scripts for Use Case or Class Diagrams.
+            </p>
+
         </div>
+
     </div>
 
-    <div th:if="${errorMessage}" class="alert alert-error" th:text="${errorMessage}"></div>
+    <!-- ================= ERROR MESSAGE ================= -->
+    <div th:if="${errorMessage}"
+         class="alert alert-error"
+         th:text="${errorMessage}">
+    </div>
 
+    <!-- ================= TOOL SELECTION ================= -->
     <div class="detail-card">
+
         <div class="form-group">
-            <label for="tool">Tool</label>
-            <select id="tool" class="form-control" style="max-width: 240px;">
-                <option value="plantuml" th:selected="${tool == 'plantuml'}">PlantUML</option>
-                <option value="nomnoml" th:selected="${tool == 'nomnoml'}">Nomnoml</option>
+
+            <label for="tool">
+                Tool
+            </label>
+
+            <select id="tool"
+                    class="form-control"
+                    style="max-width: 240px;">
+
+                <option value="plantuml"
+                        th:selected="${tool == 'plantuml'}">
+
+                    PlantUML
+
+                </option>
+
+                <option value="nomnoml"
+                        th:selected="${tool == 'nomnoml'}">
+
+                    Nomnoml
+
+                </option>
+
             </select>
+
         </div>
 
-        <div class="form-actions" style="display:flex; gap: 0.8rem; margin-top: 0.5rem;">
+        <!-- ================= GENERATE BUTTONS ================= -->
+        <div class="form-actions"
+             style="display:flex; gap: 0.8rem; margin-top: 0.5rem;">
+
             <form id="uc-form"
                   th:action="@{/projects/{id}/diagrams/use-case(id=${project.id})}"
-                  method="post" style="display:inline;">
-                <input type="hidden" name="tool" id="uc-tool" value="plantuml">
-                <button type="submit" class="btn btn-primary">Generate UC Diagram</button>
+                  method="post"
+                  style="display:inline;">
+
+                <input type="hidden"
+                       name="tool"
+                       id="uc-tool"
+                       value="plantuml">
+
+                <button type="submit"
+                        class="btn btn-primary">
+
+                    Generate UC Diagram
+
+                </button>
+
             </form>
+
             <form id="class-form"
                   th:action="@{/projects/{id}/diagrams/class(id=${project.id})}"
-                  method="post" style="display:inline;">
-                <input type="hidden" name="tool" id="class-tool" value="plantuml">
-                <button type="submit" class="btn btn-primary">Generate Class Diagram</button>
+                  method="post"
+                  style="display:inline;">
+
+                <input type="hidden"
+                       name="tool"
+                       id="class-tool"
+                       value="plantuml">
+
+                <button type="submit"
+                        class="btn btn-primary">
+
+                    Generate Class Diagram
+
+                </button>
+
             </form>
+
         </div>
+
     </div>
 
-    <div class="detail-card" style="margin-top: 1.5rem;" th:if="${script != null}">
+    <!-- ================= GENERATED SCRIPT ================= -->
+    <div class="detail-card"
+         style="margin-top: 1.5rem;"
+         th:if="${script != null}">
+
         <div class="page-header">
-            <h2 th:text="${scriptType} + ' — ' + ${tool}">Script</h2>
-        </div>
-        <p class="page-subtitle">Copy the script and paste it into plantuml.com or nomnoml.com</p>
-        <textarea id="script-output" class="form-control" readonly
-                  style="font-family: monospace; min-height: 280px;"
-                  th:text="${script}"></textarea>
 
-        <div class="form-actions" style="display:flex; gap: 0.8rem; margin-top: 0.8rem;">
-            <button type="button" id="copy-btn" class="btn btn-secondary"
-                    onclick="copyToClipboard()">Copy to Clipboard</button>
-            <a href="https://www.plantuml.com/plantuml/uml/" target="_blank"
-               class="btn btn-secondary">Open plantuml.com</a>
-            <a href="https://www.nomnoml.com/" target="_blank"
-               class="btn btn-secondary">Open nomnoml.com</a>
+            <h2 th:text="${scriptType} + ' — ' + ${tool}">
+                Script
+            </h2>
+
         </div>
+
+        <p class="page-subtitle">
+            Copy the script and paste it into plantuml.com or nomnoml.com
+        </p>
+
+        <textarea id="script-output"
+                  class="form-control"
+                  readonly
+                  style="font-family: monospace; min-height: 280px;"
+                  th:text="${script}">
+        </textarea>
+
+        <!-- ================= ACTION BUTTONS ================= -->
+        <div class="form-actions"
+             style="display:flex; gap: 0.8rem; margin-top: 0.8rem;">
+
+            <button type="button"
+                    id="copy-btn"
+                    class="btn btn-secondary"
+                    onclick="copyToClipboard()">
+
+                Copy to Clipboard
+
+            </button>
+
+            <a href="https://www.plantuml.com/plantuml/uml/"
+               target="_blank"
+               class="btn btn-secondary">
+
+                Open plantuml.com
+
+            </a>
+
+            <a href="https://www.nomnoml.com/"
+               target="_blank"
+               class="btn btn-secondary">
+
+                Open nomnoml.com
+
+            </a>
+
+        </div>
+
     </div>
 
+    <!-- ================= SCRIPT ================= -->
     <script>
+
         const toolSelect = document.getElementById('tool');
+
         const ucTool = document.getElementById('uc-tool');
+
         const classTool = document.getElementById('class-tool');
+
         function syncTool() {
+
             ucTool.value = toolSelect.value;
+
             classTool.value = toolSelect.value;
+
         }
+
         toolSelect.addEventListener('change', syncTool);
+
         syncTool();
 
         function copyToClipboard() {
+
             const ta = document.getElementById('script-output');
+
             const btn = document.getElementById('copy-btn');
+
             navigator.clipboard.writeText(ta.value).then(() => {
+
                 const original = btn.textContent;
+
                 btn.textContent = 'Copied! ✓';
+
                 btn.style.background = '#28a745';
+
                 btn.style.color = '#fff';
+
                 setTimeout(() => {
+
                     btn.textContent = original;
+
                     btn.style.background = '';
+
                     btn.style.color = '';
+
                 }, 2000);
+
             });
+
         }
+
     </script>
+
 </section>
+
 </body>
 </html>
