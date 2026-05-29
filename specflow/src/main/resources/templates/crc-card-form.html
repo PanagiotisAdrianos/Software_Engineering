@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: layout(~{::section}, 'New CRC Card')}">
+
+<body>
+
+<section th:fragment="content">
+
+    <div class="form-container">
+
+        <!-- ================= BREADCRUMB ================= -->
+        <div class="breadcrumb">
+
+            <a th:href="@{/projects}">
+                My Projects
+            </a>
+
+            &rsaquo;
+
+            <a th:href="@{/projects/{id}(id=${project.id})}"
+               th:text="${project.name}">
+                Project
+            </a>
+
+            &rsaquo;
+
+            New CRC Card
+
+        </div>
+
+        <!-- ================= PAGE TITLE ================= -->
+        <h1>Create CRC Card</h1>
+
+        <!-- ================= ERROR MESSAGE ================= -->
+        <div th:if="${errorMessage}"
+             class="alert alert-error"
+             th:text="${errorMessage}">
+        </div>
+
+        <!-- ================= FORM ================= -->
+        <form th:action="@{/projects/{projectId}/crccards(projectId=${project.id})}"
+              method="post"
+              th:object="${crcCardDto}">
+
+            <!-- CLASS NAME -->
+            <div class="form-group">
+
+                <label for="className">
+                    Class Name
+                    <span class="required">*</span>
+                </label>
+
+                <input type="text"
+                       id="className"
+                       th:field="*{className}"
+                       class="form-control"
+                       placeholder="e.g. User, OrderService, PaymentGateway">
+
+            </div>
+
+            <!-- RESPONSIBILITIES -->
+            <div class="form-group">
+
+                <label for="responsibilities">
+                    Responsibilities
+                </label>
+
+                <textarea id="responsibilities"
+                          th:field="*{responsibilities}"
+                          class="form-control"
+                          rows="6"
+                          placeholder="One responsibility per line..."></textarea>
+
+            </div>
+
+            <!-- COLLABORATIONS -->
+            <div class="form-group">
+
+                <label for="collaborations">
+                    Collaborations
+                </label>
+
+                <textarea id="collaborations"
+                          th:field="*{collaborations}"
+                          class="form-control"
+                          rows="4"
+                          placeholder="Classes that collaborate with this class, one per line..."></textarea>
+
+            </div>
+
+            <!-- ACTION BUTTONS -->
+            <div class="form-actions"
+                 style="display:flex; gap: 0.8rem;">
+
+                <button type="submit"
+                        class="btn btn-primary">
+
+                    Save
+
+                </button>
+
+                <a th:href="@{/projects/{id}(id=${project.id})}"
+                   class="btn btn-secondary">
+
+                    Cancel
+
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</section>
+
+</body>
+</html>

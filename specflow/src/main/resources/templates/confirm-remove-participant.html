@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: layout(~{::section}, 'Επιβεβαίωση Αφαίρεσης')}">
+<body>
+<section th:fragment="content">
+    <div class="form-container">
+        <div th:replace="~{fragments/confirm-delete-dialog :: dialog(
+            'Remove Participant',
+            'Are you sure you want to remove this participant from the project?',
+            @{/projects/{pid}/participants/{id}/delete(pid=${project.id}, id=${participantId})},
+            @{/projects/{pid}/participants(pid=${project.id})}
+        )}"></div>
+    </div>
+</section>
+</body>
+</html>

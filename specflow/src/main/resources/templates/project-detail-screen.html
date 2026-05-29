@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layout/base :: layout(~{::section}, 'Project Details')}">
+<body>
+<section th:fragment="content">
+
+    <div class="breadcrumb">
+        <a th:href="@{/projects}">My Projects</a>
+        &rsaquo;
+        <span th:text="${project.name}">Project</span>
+    </div>
+
+    <div th:replace="~{fragments/flash-messages :: messages}"></div>
+
+    <div class="page-header">
+
+        <div>
+            <h1 th:text="${project.name}">
+                Project Name
+            </h1>
+
+            <p th:if="${not #strings.isEmpty(project.description)}"
+               th:text="${project.description}"
+               class="page-subtitle">
+            </p>
+        </div>
+
+        <div class="page-actions"
+             style="display:flex; gap: 0.6rem;">
+
+            <a th:href="@{/projects/{id}/diagrams(id=${project.id})}"
+               class="btn btn-primary">
+                Diagrams
+            </a>
+
+            <a sec:authorize="hasRole('ORG_OWNER')"
+               th:href="@{/projects/{id}/participants(id=${project.id})}"
+               class="btn btn-primary">
+                Manage Participants
+            </a>
+
+            <a th:href="@{/projects/{id}/delete-confirm(id=${project.id})}"
+               class="btn btn-danger">
+                Delete Project
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- ================= TABS ================= -->
+
+    <div class="tabs">
+
+        <a href="#"
+           class="tab-item active"
+           id="tab-usecases"
+           onclick="showTab('usecases'); return false;">
+
+            Use Cases
+
+            <span class="badge-count"
+                  th:text="${#lists.size(useCases)}">
+                0
+            </span>
+
+        </a>
+
+        <a href="#"
+           class="tab-item"
+           id="tab-crccards"
+           onclick="showTab('crccards'); return false;">
+
+            CRC Cards
+
+            <span class="badge-count"
+                  th:text="${#lists.size(crcCards)}">
+                0
+            </span>
+
+        </a>
+
+    </div>
+
+    <!-- ================= USE CASES ================= -->
+
+    <div class="tab-content" id="content-usecases">
+
+        <div class="tab-header"
+             style="display:flex; justify-content:space-between; align-items:center;">
+
+            <h2>Use Cases</h2>
+
+            <a th:href="@{/projects/{id}/usecases/new(id=${project.id})}"
+               class="btn btn-primary">
+                + New Use Case
+            </a>
+
+        </div>
+
+        <div th:if="${#lists.isEmpty(useCases)}"
+             class="empty-state">
+
+            No Use Cases available yet.
+
+        </div>
+
+        <ul th:unless="${#lists.isEmpty(useCases)}"
+            class="item-list">
+
+            <li th:each="uc : ${useCases}"
+                class="item-list-row">
+
+                <a th:href="@{/projects/{pid}/usecases/{id}(pid=${project.id}, id=${uc.id})}"
+                   th:text="${uc.name}"
+                   class="item-name">
+
+                    Use Case
+
+                </a>
+
+                <span th:text="${uc.status}"
+                      th:classappend="${uc.status.name() == 'APPROVED'} ? 'badge badge-success' : (${uc.status.name() == 'REJECTED'} ? 'badge badge-danger' : 'badge badge-pending')"
+                      class="badge">
+                </span>
+
+            </li>
+
+        </ul>
+
+    </div>
+
+    <!-- ================= CRC CARDS ================= -->
+
+    <div class="tab-content tab-hidden"
+         id="content-crccards">
+
+        <div class="tab-header"
+             style="display:flex; justify-content:space-between; align-items:center;">
+
+            <h2>CRC Cards</h2>
+
+            <a th:href="@{/projects/{id}/crccards/new(id=${project.id})}"
+               class="btn btn-primary">
+
+                + New CRC Card
+
+            </a>
+
+        </div>
+
+        <div th:if="${#lists.isEmpty(crcCards)}"
+             class="empty-state">
+
+            No CRC Cards available yet.
+
+        </div>
+
+        <ul th:unless="${#lists.isEmpty(crcCards)}"
+            class="item-list">
+
+            <li th:each="crc : ${crcCards}"
+                class="item-list-row">
+
+                <a th:href="@{/projects/{pid}/crccards/{id}(pid=${project.id}, id=${crc.id})}"
+                   th:text="${crc.className}"
+                   class="item-name">
+
+                    CRC Card
+
+                </a>
+
+            </li>
+
+        </ul>
+
+    </div>
+
+    <!-- ================= TAB SCRIPT ================= -->
+
+    <script>
+
+        function showTab(tabName) {
+
+            document
+                .querySelectorAll('.tab-content')
+                .forEach(el => el.classList.add('tab-hidden'));
+
+            document
+                .querySelectorAll('.tab-item')
+                .forEach(el => el.classList.remove('active'));
+
+            document
+                .getElementById('content-' + tabName)
+                .classList.remove('tab-hidden');
+
+            document
+                .getElementById('tab-' + tabName)
+                .classList.add('active');
+        }
+
+    </script>
+
+</section>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: layout(~{::section}, 'Participants')}">
+<body>
+<section th:fragment="content">
+    <div class="breadcrumb">
+        <a th:href="@{/projects}">Τα Projects μου</a> &rsaquo;
+        <a th:href="@{/projects/{id}(id=${project.id})}" th:text="${project.name}">Project</a> &rsaquo;
+        Participants
+    </div>
+
+    <div th:replace="~{fragments/flash-messages :: messages}"></div>
+
+    <div class="page-header">
+        <div>
+            <h1>Manage Participants</h1>
+            <p class="page-subtitle">Λίστα συμμετεχόντων του Project.</p>
+        </div>
+        <div class="page-actions">
+            <a th:href="@{/projects/{id}/participants/new(id=${project.id})}"
+               class="btn btn-primary">+ Add New Participant</a>
+        </div>
+    </div>
+
+    <div th:if="${#lists.isEmpty(participants)}" class="empty-state">
+        Δεν υπάρχουν συμμετέχοντες ακόμα.
+    </div>
+    <ul th:unless="${#lists.isEmpty(participants)}" class="item-list">
+        <li th:each="p : ${participants}" class="item-list-row">
+            <span class="item-name" th:text="${p.user.username}">username</span>
+            <span class="badge" th:text="${p.role}">ROLE</span>
+            <form th:action="@{/projects/{pid}/participants/{id}/delete-confirm(pid=${project.id}, id=${p.id})}"
+                  method="get" style="display:inline;">
+                <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+            </form>
+        </li>
+    </ul>
+
+    <div style="margin-top: 1.5rem;">
+        <a th:href="@{/projects/{id}(id=${project.id})}" class="btn btn-secondary">← Πίσω στο Project</a>
+    </div>
+</section>
+</body>
+</html>

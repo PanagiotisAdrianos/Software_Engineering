@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: layout(~{::section}, 'CRC Card')}">
+<body>
+<section th:fragment="content">
+    <div class="breadcrumb">
+        <a th:href="@{/projects}">Τα Projects μου</a> &rsaquo;
+        <a th:href="@{/projects/{id}(id=${project.id})}" th:text="${project.name}">Project</a> &rsaquo;
+        <span th:text="${crcCard.className}">CRC Card</span>
+    </div>
+
+    <div th:replace="~{fragments/flash-messages :: messages}"></div>
+
+    <div class="page-header">
+        <div>
+            <h1 th:text="${crcCard.className}">Class Name</h1>
+        </div>
+        <div class="page-actions" style="display:flex; gap: 0.6rem;">
+            <a th:href="@{/projects/{pid}/crccards/{id}/edit(pid=${project.id}, id=${crcCard.id})}"
+               class="btn btn-primary">Edit</a>
+            <a th:href="@{/projects/{pid}/crccards/{id}/delete-confirm(pid=${project.id}, id=${crcCard.id})}"
+               class="btn btn-danger">Delete</a>
+        </div>
+    </div>
+
+    <div class="detail-card">
+        <div class="detail-section" th:if="${not #strings.isEmpty(crcCard.responsibilities)}">
+            <h3>Responsibilities</h3>
+            <p th:text="${crcCard.responsibilities}" style="white-space: pre-wrap;"></p>
+        </div>
+
+        <div class="detail-section" th:if="${not #strings.isEmpty(crcCard.collaborations)}">
+            <h3>Collaborations</h3>
+            <p th:text="${crcCard.collaborations}" style="white-space: pre-wrap;"></p>
+        </div>
+    </div>
+
+    <div th:replace="~{fragments/comment-section :: section(${comments}, ${targetType}, ${targetId}, ${project.id}, ${currentUserId})}"></div>
+
+    <div style="margin-top: 1.5rem;">
+        <a th:href="@{/projects/{id}(id=${project.id})}" class="btn btn-secondary">← Πίσω στο Project</a>
+    </div>
+</section>
+</body>
+</html>

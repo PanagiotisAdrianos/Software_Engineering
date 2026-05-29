@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: layout(~{::section}, 'Επεξεργασία CRC Card')}">
+<body>
+<section th:fragment="content">
+    <div class="form-container">
+        <div class="breadcrumb">
+            <a th:href="@{/projects}">Τα Projects μου</a> &rsaquo;
+            <a th:href="@{/projects/{id}(id=${project.id})}" th:text="${project.name}">Project</a> &rsaquo;
+            <a th:href="@{/projects/{pid}/crccards/{id}(pid=${project.id}, id=${crcCard.id})}"
+               th:text="${crcCard.className}">CRC Card</a> &rsaquo;
+            Edit
+        </div>
+        <h1>Επεξεργασία CRC Card</h1>
+
+        <div th:if="${errorMessage}" class="alert alert-error" th:text="${errorMessage}"></div>
+
+        <form th:action="@{/projects/{pid}/crccards/{id}(pid=${project.id}, id=${crcCard.id})}"
+              method="post" th:object="${crcCardDto}">
+            <div class="form-group">
+                <label for="className">Class Name <span class="required">*</span></label>
+                <input type="text" id="className" th:field="*{className}" class="form-control"
+                       placeholder="π.χ. User, OrderService, PaymentGateway">
+            </div>
+
+            <div class="form-group">
+                <label for="responsibilities">Responsibilities</label>
+                <textarea id="responsibilities" th:field="*{responsibilities}" class="form-control" rows="6"
+                          placeholder="Μία αρμοδιότητα ανά γραμμή..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="collaborations">Collaborations</label>
+                <textarea id="collaborations" th:field="*{collaborations}" class="form-control" rows="4"
+                          placeholder="Κλάσεις με τις οποίες συνεργάζεται, μία ανά γραμμή..."></textarea>
+            </div>
+
+            <div class="form-actions" style="display:flex; gap: 0.8rem;">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <a th:href="@{/projects/{pid}/crccards/{id}(pid=${project.id}, id=${crcCard.id})}"
+                   class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</section>
+</body>
+</html>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: layout(~{::section}, 'Επιβεβαίωση Διαγραφής')}">
+<body>
+<section th:fragment="content">
+    <div class="form-container">
+        <div th:replace="~{fragments/confirm-delete-dialog :: dialog(
+            'Διαγραφή Use Case',
+            'Σίγουρα θέλετε να διαγράψετε το use case «' + ${useCase.name} + '»; Η ενέργεια δεν μπορεί να αναιρεθεί.',
+            @{/projects/{pid}/usecases/{id}/delete(pid=${project.id}, id=${useCase.id})},
+            @{/projects/{pid}/usecases/{id}(pid=${project.id}, id=${useCase.id})}
+        )}"></div>
+    </div>
+</section>
+</body>
+</html>

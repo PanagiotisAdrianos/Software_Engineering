@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layout/base :: layout(~{::section}, 'Use Case')}">
+
+<body>
+
+<section th:fragment="content">
+
+    <!-- ================= BREADCRUMB ================= -->
+    <div class="breadcrumb">
+
+        <a th:href="@{/projects}">
+            My Projects
+        </a>
+
+        &rsaquo;
+
+        <a th:href="@{/projects/{id}(id=${project.id})}"
+           th:text="${project.name}">
+            Project
+        </a>
+
+        &rsaquo;
+
+        <span th:text="${useCase.name}">
+            Use Case
+        </span>
+
+    </div>
+
+    <!-- ================= FLASH MESSAGES ================= -->
+    <div th:replace="~{fragments/flash-messages :: messages}"></div>
+
+    <!-- ================= PAGE HEADER ================= -->
+    <div class="page-header">
+
+        <div>
+
+            <h1 th:text="${useCase.name}">
+                Use Case Name
+            </h1>
+
+            <span th:if="${useCase.status.name() == 'PENDING'}"
+                  class="badge badge-pending">
+                Pending Approval
+            </span>
+
+            <span th:if="${useCase.status.name() == 'APPROVED'}"
+                  class="badge badge-success">
+                Approved
+            </span>
+
+            <span th:if="${useCase.status.name() == 'REJECTED'}"
+                  class="badge badge-danger">
+                Rejected
+            </span>
+
+        </div>
+
+        <!-- ================= ACTION BUTTONS ================= -->
+        <div class="page-actions"
+             style="display:flex; gap: 0.6rem;">
+
+            <a sec:authorize="hasRole('ORG_OWNER')"
+               th:if="${useCase.status.name() == 'PENDING'}"
+               th:href="@{/projects/{pid}/usecases/{id}/reply-approval(pid=${project.id}, id=${useCase.id})}"
+               class="btn btn-primary">
+
+                Reply Approval
+
+            </a>
+
+            <a th:href="@{/projects/{pid}/usecases/{id}/edit(pid=${project.id}, id=${useCase.id})}"
+               class="btn btn-secondary">
+
+                Edit
+
+            </a>
+
+            <a th:href="@{/projects/{pid}/usecases/{id}/delete-confirm(pid=${project.id}, id=${useCase.id})}"
+               class="btn btn-danger">
+
+                Delete
+
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- ================= REJECTION MESSAGE ================= -->
+    <div th:if="${useCase.status.name() == 'REJECTED' and not #strings.isEmpty(useCase.rejectionReason)}"
+         class="alert alert-error"
+         style="margin-bottom: 1rem;">
+
+        <strong>
+            Rejection Reason:
+        </strong>
+
+        <span th:text="${useCase.rejectionReason}"
+              style="white-space: pre-wrap;">
+        </span>
+
+    </div>
+
+    <!-- ================= DETAILS CARD ================= -->
+    <div class="detail-card">
+
+        <!-- PRECONDITION -->
+        <div class="detail-section"
+             th:if="${not #strings.isEmpty(useCase.precondition)}">
+
+            <h3>
+                Precondition
+            </h3>
+
+            <p th:text="${useCase.precondition}"></p>
+
+        </div>
+
+        <!-- MAIN FLOW -->
+        <div class="detail-section"
+             th:if="${not #strings.isEmpty(useCase.mainFlow)}">
+
+            <h3>
+                Main Flow
+            </h3>
+
+            <p th:text="${useCase.mainFlow}"
+               style="white-space: pre-wrap;">
+            </p>
+
+        </div>
+
+        <!-- ALTERNATIVE FLOW -->
+        <div class="detail-section"
+             th:if="${not #strings.isEmpty(useCase.alternativeFlow)}">
+
+            <h3>
+                Alternative Flow
+            </h3>
+
+            <p th:text="${useCase.alternativeFlow}"
+               style="white-space: pre-wrap;">
+            </p>
+
+        </div>
+
+        <!-- POSTCONDITION -->
+        <div class="detail-section"
+             th:if="${not #strings.isEmpty(useCase.postcondition)}">
+
+            <h3>
+                Postcondition
+            </h3>
+
+            <p th:text="${useCase.postcondition}"></p>
+
+        </div>
+
+        <!-- ACTORS -->
+        <div class="detail-section"
+             th:if="${not #lists.isEmpty(useCase.actors)}">
+
+            <h3>
+                Actors
+            </h3>
+
+            <ul class="actor-list">
+
+                <li th:each="actor : ${useCase.actors}"
+                    th:text="${actor.name}">
+                    Actor
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+    <!-- ================= COMMENTS SECTION ================= -->
+    <div th:replace="~{fragments/comment-section :: section(${comments}, ${targetType}, ${targetId}, ${project.id}, ${currentUserId})}">
+    </div>
+
+</section>
+
+</body>
+</html>

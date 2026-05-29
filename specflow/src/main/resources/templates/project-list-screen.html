@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: layout(~{::section}, 'My Projects')}">
+<body>
+<section th:fragment="content">
+
+    <div class="page-header">
+        <h1>My Projects</h1>
+        <a th:href="@{/projects/new}" class="btn btn-primary">+ New Project</a>
+    </div>
+
+    <!-- EMPTY STATE -->
+    <div th:if="${#lists.isEmpty(projects)}" class="empty-state">
+        <p>You haven't created any projects yet.</p>
+        <a th:href="@{/projects/new}" class="btn btn-primary">
+            Create your first project
+        </a>
+    </div>
+
+    <!-- PROJECT LIST -->
+    <div class="card-grid" th:unless="${#lists.isEmpty(projects)}">
+
+        <div class="card" th:each="project : ${projects}">
+
+            <h2 th:text="${project.name}">Project Name</h2>
+
+            <!-- ================= ROLE TAG ================= -->
+            <div class="project-tags">
+
+                <span th:switch="${user.role}">
+
+                    <span th:case="ORG_OWNER" class="tag tag-owner">Org Owner</span>
+
+                    <span th:case="ADMIN" class="tag tag-admin">Admin</span>
+
+                    <span th:case="DEVELOPER" class="tag tag-dev">Developer</span>
+
+                    <span th:case="COLLABORATOR" class="tag tag-collab">Collaborator</span>
+
+                    <span th:case="REVIEWER" class="tag tag-reviewer">Reviewer</span>
+
+                    <span th:case="GUEST" class="tag tag-guest">Guest</span>
+
+                </span>
+
+            </div>
+
+            <p th:text="${project.description}" class="card-description">
+                Project description
+            </p>
+
+            <div class="card-actions">
+                <a th:href="@{/projects/{id}(id=${project.id})}"
+                   class="btn btn-primary">
+                    Details
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+</body>
+</html>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: layout(~{::section}, 'Επιβεβαίωση Διαγραφής')}">
+<body>
+<section th:fragment="content">
+    <div class="form-container">
+        <div th:replace="~{fragments/confirm-delete-dialog :: dialog(
+            'Διαγραφή CRC Card',
+            'Links to Use Cases will also be deleted. Do you want to continue?',
+            @{/projects/{pid}/crccards/{id}/delete(pid=${project.id}, id=${crcCard.id})},
+            @{/projects/{pid}/crccards/{id}(pid=${project.id}, id=${crcCard.id})}
+        )}"></div>
+    </div>
+</section>
+</body>
+</html>

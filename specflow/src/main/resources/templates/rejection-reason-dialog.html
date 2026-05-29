@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: layout(~{::section}, 'Rejection Reason')}">
+<body>
+<section th:fragment="content">
+    <div class="form-container">
+        <form th:action="@{/projects/{pid}/usecases/{id}/reject(pid=${project.id}, id=${useCase.id})}"
+              method="post" class="confirm-dialog card">
+            <h2>Rejection Reason</h2>
+            <p class="page-subtitle">
+                Use Case: <strong th:text="${useCase.name}">Name</strong>
+            </p>
+
+            <div class="form-group">
+                <label for="reason">Rejection reason (optional)</label>
+                <textarea id="reason" name="reason" class="form-control" rows="4"
+                          placeholder="Γράψτε σύντομη αιτιολογία..."></textarea>
+            </div>
+
+            <div class="form-actions" style="margin-top: 1.2rem; display:flex; gap: 0.8rem;">
+                <button type="submit" class="btn btn-danger">Confirm Rejection</button>
+                <a th:href="@{/projects/{pid}/usecases/{id}(pid=${project.id}, id=${useCase.id})}"
+                   class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</section>
+</body>
+</html>

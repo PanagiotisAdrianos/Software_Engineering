@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="~{layout/base :: layout(~{::section}, 'Homepage')}">
+<body>
+<section th:fragment="content">
+    <div th:replace="~{fragments/flash-messages :: messages}"></div>
+
+    <div class="page-header">
+        <div>
+            <h1>SpecFlow</h1>
+            <p class="page-subtitle">Welcome to SpecFlow.</p>
+        </div>
+        <div class="page-actions" style="display:flex; gap: 0.6rem;">
+            <a th:href="@{/projects}" class="btn btn-primary">My Projects</a>
+            <a sec:authorize="hasRole('ADMIN')"
+               th:href="@{/admin/users}" class="btn btn-danger">Admin Panel</a>
+        </div>
+    </div>
+</section>
+</body>
+</html>

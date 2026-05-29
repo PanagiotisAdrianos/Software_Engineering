@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: layout(~{::section}, 'Επιβεβαίωση Διαγραφής')}">
+<body>
+<section th:fragment="content">
+    <div class="form-container">
+        <div th:replace="~{fragments/confirm-delete-dialog :: dialog(
+            'Διαγραφή Project',
+            'Σίγουρα θέλετε να διαγράψετε το project ' + ${project.name} + '; Θα διαγραφούν όλα τα Use Cases, CRC Cards και Comments.',
+            @{/projects/{id}/delete(id=${project.id})},
+            @{/projects/{id}(id=${project.id})}
+        )}"></div>
+    </div>
+</section>
+</body>
+</html>

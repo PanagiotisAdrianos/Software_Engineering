@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: layout(~{::section}, 'Νέο Project')}">
+<body>
+<section th:fragment="content">
+    <div class="form-container">
+        <div class="breadcrumb">
+            <a th:href="@{/projects}">Τα Projects μου</a> &rsaquo; Νέο Project
+        </div>
+        <h1>Δημιουργία Νέου Project</h1>
+
+        <div th:if="${errorMessage}" class="alert alert-error" th:text="${errorMessage}"></div>
+
+        <form th:action="@{/projects}" method="post" th:object="${projectDto}">
+            <div class="form-group">
+                <label for="name">Project Name <span class="required">*</span></label>
+                <input type="text" id="name" th:field="*{name}" class="form-control"
+                       placeholder="π.χ. Library Management System">
+            </div>
+            <div class="form-group">
+                <label for="description">Περιγραφή</label>
+                <textarea id="description" th:field="*{description}" class="form-control"
+                          placeholder="Σύντομη περιγραφή (προαιρετικό)"></textarea>
+            </div>
+            <div class="form-actions" style="display:flex; gap: 0.8rem;">
+                <button type="submit" class="btn btn-primary">Create Project</button>
+                <a th:href="@{/projects}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</section>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: layout(~{::section}, 'Επεξεργασία Use Case')}">
+<body>
+<section th:fragment="content">
+    <div class="form-container">
+        <div class="breadcrumb">
+            <a th:href="@{/projects}">Τα Projects μου</a> &rsaquo;
+            <a th:href="@{/projects/{id}(id=${project.id})}" th:text="${project.name}">Project</a> &rsaquo;
+            <a th:href="@{/projects/{pid}/usecases/{id}(pid=${project.id}, id=${useCase.id})}"
+               th:text="${useCase.name}">Use Case</a> &rsaquo;
+            Επεξεργασία
+        </div>
+        <h1>Επεξεργασία Use Case</h1>
+
+        <div th:if="${errorMessage}" class="alert alert-error" th:text="${errorMessage}"></div>
+
+        <form th:action="@{/projects/{pid}/usecases/{id}(pid=${project.id}, id=${useCase.id})}"
+              method="post" th:object="${useCaseDto}">
+            <div class="form-group">
+                <label for="name">Όνομα Use Case <span class="required">*</span></label>
+                <input type="text" id="name" th:field="*{name}" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label>Actors <span class="required">*</span></label>
+                <div class="checkbox-group">
+                    <div th:each="actor : ${actors}" class="checkbox-item">
+                        <input type="checkbox" th:id="'actor-' + ${actor.id}"
+                               th:value="${actor.id}"
+                               th:name="actorIds"
+                               th:checked="${useCaseDto.actorIds != null and useCaseDto.actorIds.contains(actor.id)}">
+                        <label th:for="'actor-' + ${actor.id}" th:text="${actor.name}">Actor</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="precondition">Προϋπόθεση (Precondition)</label>
+                <textarea id="precondition" th:field="*{precondition}" class="form-control" rows="3"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="mainFlow">Κύρια Ροή (Main Flow)</label>
+                <textarea id="mainFlow" th:field="*{mainFlow}" class="form-control" rows="6"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="alternativeFlow">Εναλλακτική Ροή (Alternative Flow)</label>
+                <textarea id="alternativeFlow" th:field="*{alternativeFlow}" class="form-control" rows="4"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="postcondition">Μεταϋπόθεση (Postcondition)</label>
+                <textarea id="postcondition" th:field="*{postcondition}" class="form-control" rows="3"></textarea>
+            </div>
+
+            <div class="form-actions" style="display:flex; gap: 0.8rem;">
+                <button type="submit" class="btn btn-primary">Αποθήκευση Αλλαγών</button>
+                <a th:href="@{/projects/{pid}/usecases/{id}(pid=${project.id}, id=${useCase.id})}"
+                   class="btn btn-secondary">Ακύρωση</a>
+            </div>
+        </form>
+    </div>
+</section>
+</body>
+</html>
