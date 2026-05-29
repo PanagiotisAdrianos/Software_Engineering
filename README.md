@@ -17,6 +17,7 @@
 - [Architecture](#-architecture)
 - [Design Patterns](#-design-patterns)
 - [Technologies](#-technologies)
+-  [Screenshots](#️-screenshots)
 
 ---
 
@@ -79,3 +80,30 @@ The platform leverages a robust tech stack to ensure high performance and securi
 **Frontend & Templates**
 
 - **HTML**
+
+---
+
+## 🖼️ Screenshots
+
+<table width="100%">
+  <tr>
+    <th width="50%" align="center"><b>Project Dashboard</b></th>
+    <th width="50%" align="center"><b>Automated Diagram Generation Panel</b></th>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="images/1-project-list.png" alt="Project List Screen" width="100%"/>
+    </td>
+    <td align="center">
+      <img src="images/2-generate-diagrams.png" alt="Diagram Generation Screen" width="100%"/>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Displays the <code>Project List</code> dashboard where authenticated team members can view, browse, and coordinate their active requirements workspaces based on their specific roles.
+    </td>
+    <td>
+      Displays the <code>Generate Diagrams</code> interface, allowing users to view the dynamically compiled technical scripts for their specified requirements.
+    </td>
+  </tr>
+</table>
