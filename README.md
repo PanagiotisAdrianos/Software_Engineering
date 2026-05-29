@@ -1,4 +1,3 @@
-<!-- LOGO -->
 <p align="center">
   <img src="images/logo.png" alt="SpecFlow Logo" width="200"/>
 </p>
@@ -13,111 +12,70 @@
 
 ## 📚 Table of Contents
 
-- [📚 Table of Contents](#-table-of-contents)
-- [📌 Overview](#-overview)
-- [🧠 Key Features](#-key-features)
-  - [📂 Project Management](#-project-management)
-  - [📋 Use Case Management](#-use-case-management)
-  - [🧩 CRC Cards](#-crc-cards)
-  - [💬 Collaboration](#-collaboration)
-  - [📊 Diagram Generation](#-diagram-generation)
-  - [🔔 Notifications \& History](#-notifications--history)
-- [👥 User Roles](#-user-roles)
-- [🏗️ System Architecture](#️-system-architecture)
-  - [Core Entities:](#core-entities)
-- [🔄 Core Functionality](#-core-functionality)
+- [Overview](#-overview)
+- [Key Features](#-key-features)
+- [Architecture](#-architecture)
+- [Design Patterns](#-design-patterns)
+- [Technologies](#-technologies)
 
 ---
 
 ## 📌 Overview
 
-**SpecFlow** is a web application designed for software development teams that struggle with **scattered and unstructured requirements**.
+**SpecFlow** is a complete web application designed for software development teams and organizations that struggle with scattered and unstructured requirements.
 
-Instead of managing requirements across emails, documents, and notes, SpecFlow provides a **centralized and collaborative environment** where all requirements are organized and accessible.
+Instead of managing system requirements across fragmented emails, local documents, and notes, SpecFlow aggregates everything into a centralized, structured, and collaborative workspace. It enables teams to write, review, and approve Use Cases and CRC Cards while automatically generating visual diagrams for their specifications.
 
 ---
 
 ## 🧠 Key Features
 
-### 📂 Project Management
-- Create and delete projects
-- Assign ownership
-- Share projects with other users
-
-### 📋 Use Case Management
-- Create, edit, and delete use cases
-- Define:
-  - Preconditions
-  - Main flow
-  - Alternative flows
-  - Postconditions
-- Approval workflow:
-  - `PENDING`
-  - `APPROVED`
-  - `REJECTED`
-
-### 🧩 CRC Cards
-- Model system classes
-- Define responsibilities & collaborations
-- Link with Use Cases
-
-### 💬 Collaboration
-- Add comments to Use Cases & CRC Cards
-- Enable team communication
-- Role-based access control
-
-### 📊 Diagram Generation
-- Automatically generate:
-  - Use Case Diagrams
-  - Class Diagrams
-- Export scripts compatible with:
-  - PlantUML
-  - Nomnoml
-
-### 🔔 Notifications & History
-- Track all changes (who & when)
-- Notify users for:
-  - approvals
-  - comments
-  - updates
+- **Project & Role Management:** Create projects, manage participants, and enforce role-based access control (Organization Owner, Developer, Collaborator, Reviewer, Admin).
+- **Use Case Management:** Full lifecycle management of Use Cases including Preconditions, Main/Alternative flows, and Postconditions.
+- **Approval Workflow:** Strict verification loop where the Organization Owner can `APPROVE` or `REJECT` requirements, utilizing a dedicated Rejection Reason Dialog.
+- **CRC Cards Modeling:** Visually map system classes, their responsibilities, and structural collaborations, linking them directly to Use Cases.
+- **Team Collaboration & History:** Threaded comments for granular feedback and continuous event-logging (tracking who changed what and when) with rollback capabilities.
+- **Automated Diagram Generation:** Instantly compile Use Cases and CRC cards into scripting languages for automatic visual diagram generation.
 
 ---
 
-## 👥 User Roles
+## 🏗️ Architecture
 
-- **Developer** → Creates and manages projects  
-- **Collaborator** → Edits content  
-- **Reviewer** → Adds comments only  
-- **Organization Owner** → Approves/rejects requirements  
-- **Admin** → Manages users and roles  
+SpecFlow is built on a highly decoupled **Layered Architecture** adhering to Clean Code fundamentals and the Separation of Concerns (SoC) principle:
 
----
-
-## 🏗️ System Architecture
-
-The system follows a **domain-driven design approach**.
-
-### Core Entities:
-- `User`
-- `Project`
-- `UseCase`
-- `Actor`
-- `CRCCard`
-- `Comment`
-- `ProjectShare`
+1. **UI / HTTP Layer (Controllers):** Handles incoming HTTP requests and web traffic, completely isolated from storage concerns.
+2. **Business Logic Layer (Services):** Captures the transactional core of the platform, processing validation rules, permissions, and business workflows.
+3. **Data Access Layer (Repositories):** Powered by Spring Data JPA, isolating persistent database operations from business execution routines.
+4. **Domain Layer (Entities):** The core Object Model mappings (e.g., `User`, `Project`, `UseCase`, `Actor`, `CrcCard`, `Participant`).
+5. **DTO Layer (Data Transfer Objects):** Facilitates safe data transit between controllers and service components, enforcing input validation and hiding database schemas.
+6. **Exceptions Layer:** A centralized error infrastructure managed globally by a `GlobalExceptionHandler` for uniform error responses.
+7. **Security Layer:** A robust framework utilizing session-based security, CSRF defenses, and cryptographic password hashing.
 
 ---
 
-## 🔄 Core Functionality
+## 🎨 Design Patterns
 
-Main system operations include:
+To maintain maximum flexibility and adhere to the Open/Closed Principle, SpecFlow incorporates modern design patterns:
 
-- Create / Delete Project
-- Create / Edit / Delete Use Case
-- Create / Edit / Delete CRC Card
-- Generate diagrams (PlantUML scripts)
-- Share project with users
-- Approve / Reject requirements
-- Add / Delete comments
+- **Strategy Pattern:** Utilized within the Diagram Generation engine. This encapsulates rendering formats as interchangeable objects, allowing the application to export diagrams in different syntaxes (such as **PlantUML** and **Nomnoml**). If the team decides to support a new format (e.g., Mermaid) in the future, it can be seamlessly added by defining a new strategy class without altering the core business logic.
 
 ---
+
+## 💻 Technologies
+
+The platform leverages a robust tech stack to ensure high performance and security:
+
+**Backend & Frameworks**
+
+- **Java 17+** (Core programming language)
+- **Spring Boot** (Application framework)
+- **Spring Security** (Authentication & Authorization)
+- **Spring Data JPA / Hibernate**
+
+**Database**
+
+- **MySQL 8.0+** (Relational Database Management System)
+
+**Frontend & Templates**
+
+- **HTML**
