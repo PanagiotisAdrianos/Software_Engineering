@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/base :: layout(~{::section}, '404 — Δεν Βρέθηκε')}">
+<body>
+<section th:fragment="content">
+    <div class="form-container">
+        <h1>404 — Δεν Βρέθηκε</h1>
+        <p th:text="${errorMessage} ?: 'Η σελίδα που ζητήσατε δεν υπάρχει.'"></p>
+        <a th:href="@{/projects}" class="btn btn-primary">Επιστροφή στα Projects</a>
+    </div>
+</section>
+</body>
+</html>
