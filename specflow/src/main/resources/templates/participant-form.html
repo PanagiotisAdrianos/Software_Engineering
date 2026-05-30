@@ -5,7 +5,7 @@
 <section th:fragment="content">
     <div class="form-container">
         <div class="breadcrumb">
-            <a th:href="@{/projects}">Τα Projects μου</a> &rsaquo;
+            <a th:href="@{/projects}">My Projects</a> &rsaquo;
             <a th:href="@{/projects/{id}(id=${project.id})}" th:text="${project.name}">Project</a> &rsaquo;
             <a th:href="@{/projects/{id}/participants(id=${project.id})}">Participants</a> &rsaquo;
             New Participant
